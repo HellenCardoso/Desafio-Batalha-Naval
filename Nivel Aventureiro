@@ -1,0 +1,94 @@
+#include <stdio.h>
+#define TAM 10
+
+// Função para inicializar o tabuleiro com água (0)
+void inicializarTabuleiro(int tabuleiro[TAM][TAM]) {
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            tabuleiro[i][j] = 0;
+        }
+    }
+}
+
+// Função para verificar se uma posição está ocupada (usada na validação)
+int estaOcupado(int tabuleiro[TAM][TAM], int linha, int coluna) {
+    if (linha < 0 || linha >= TAM || coluna < 0 || coluna >= TAM) {
+        return 1; // Fora do tabuleiro
+    }
+    return tabuleiro[linha][coluna] != 0;
+}
+
+// Função para posicionar um navio horizontal
+int posicionarNavioHorizontal(int tabuleiro[TAM][TAM], int linha, int coluna, int tamanho) {
+    // Verifica se está dentro dos limites e sem sobreposição
+    for (int i = 0; i < tamanho; i++) {
+        if (estaOcupado(tabuleiro, linha, coluna + i)) {
+            return 0; // Não pode posicionar
+        }
+    }
+    for (int i = 0; i < tamanho; i++) {
+        tabuleiro[linha][coluna + i] = 3;
+    }
+    return 1;
+}
+
+// Função para posicionar um navio vertical
+int posicionarNavioVertical(int tabuleiro[TAM][TAM], int linha, int coluna, int tamanho) {
+    for (int i = 0; i < tamanho; i++) {
+        if (estaOcupado(tabuleiro, linha + i, coluna)) {
+            return 0;
+        }
+    }
+    for (int i = 0; i < tamanho; i++) {
+        tabuleiro[linha + i][coluna] = 3;
+    }
+    return 1;
+}
+
+// Função para posicionar um navio diagonal (↘ ou ↙ dependendo dos parâmetros)
+int posicionarNavioDiagonal(int tabuleiro[TAM][TAM], int linha, int coluna, int tamanho, int direcao) {
+    // direcao == 1 para ↘ | direcao == -1 para ↙
+    for (int i = 0; i < tamanho; i++) {
+        int novaLinha = linha + i;
+        int novaColuna = coluna + i * direcao;
+
+        if (estaOcupado(tabuleiro, novaLinha, novaColuna)) {
+            return 0;
+        }
+    }
+    for (int i = 0; i < tamanho; i++) {
+        int novaLinha = linha + i;
+        int novaColuna = coluna + i * direcao;
+        tabuleiro[novaLinha][novaColuna] = 3;
+    }
+    return 1;
+}
+
+// Função para exibir o tabuleiro
+void exibirTabuleiro(int tabuleiro[TAM][TAM]) {
+    printf("\nTabuleiro:\n");
+    for (int i = 0; i < TAM; i++) {
+        for (int j = 0; j < TAM; j++) {
+            printf("%d ", tabuleiro[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int tabuleiro[TAM][TAM];
+    inicializarTabuleiro(tabuleiro);
+
+    // Posiciona dois navios horizontais/verticais
+    posicionarNavioHorizontal(tabuleiro, 1, 2, 3); // Horizontal: Linha 1, Coluna 2
+    posicionarNavioVertical(tabuleiro, 4, 6, 3);   // Vertical: Linha 4, Coluna 6
+
+    // Posiciona dois navios diagonais (↘ e ↙)
+    posicionarNavioDiagonal(tabuleiro, 0, 0, 3, 1); // Diagonal ↘ iniciando em (0,0)
+    posicionarNavioDiagonal(tabuleiro, 0, 9, 3, -1); // Diagonal ↙ iniciando em (0,9)
+
+    // Exibe o tabuleiro final
+    exibirTabuleiro(tabuleiro);
+
+    return 0;
+}

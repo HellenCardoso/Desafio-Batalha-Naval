@@ -1,0 +1,82 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 #include <stdio.h>\
+\
+// Programa: Batalha Naval - Posicionando Navios no Tabuleiro\
+// Desenvolvido por Hellen Cardoso\
+// Desafio N\'edvel Novato - Estruturas de Dados (Vetores e Matrizes)\
+\
+// Tamanho fixo do tabuleiro\
+#define TAMANHO 10\
+#define NAVIO 3 // Valor utilizado na matriz para representar as partes dos navios\
+\
+// Fun\'e7\'e3o para inicializar o tabuleiro com zeros (\'e1gua)\
+void inicializarTabuleiro(int tabuleiro[TAMANHO][TAMANHO]) \{\
+    for (int i = 0; i < TAMANHO; i++) \{\
+        for (int j = 0; j < TAMANHO; j++) \{\
+            tabuleiro[i][j] = 0; // 0 representa \'e1gua\
+        \}\
+    \}\
+\}\
+\
+// Fun\'e7\'e3o para exibir o tabuleiro no console\
+void exibirTabuleiro(int tabuleiro[TAMANHO][TAMANHO]) \{\
+    printf("Tabuleiro:\\n");\
+    for (int i = 0; i < TAMANHO; i++) \{\
+        for (int j = 0; j < TAMANHO; j++) \{\
+            printf("%d ", tabuleiro[i][j]);\
+        \}\
+        printf("\\n");\
+    \}\
+\}\
+\
+// Fun\'e7\'e3o para posicionar um navio horizontalmente\
+void posicionarNavioHorizontal(int tabuleiro[TAMANHO][TAMANHO], int linha, int colunaInicial, int tamanho) \{\
+    for (int i = 0; i < tamanho; i++) \{\
+        tabuleiro[linha][colunaInicial + i] = NAVIO;\
+    \}\
+\}\
+\
+// Fun\'e7\'e3o para posicionar um navio verticalmente\
+void posicionarNavioVertical(int tabuleiro[TAMANHO][TAMANHO], int linhaInicial, int coluna, int tamanho) \{\
+    for (int i = 0; i < tamanho; i++) \{\
+        tabuleiro[linhaInicial + i][coluna] = NAVIO;\
+    \}\
+\}\
+\
+int main() \{\
+    int tabuleiro[TAMANHO][TAMANHO];\
+\
+    // Inicializando o tabuleiro\
+    inicializarTabuleiro(tabuleiro);\
+\
+    // Defini\'e7\'e3o dos navios - cada um representado como vetor de 3 posi\'e7\'f5es (impl\'edcito no loop)\
+    // Navio 1 - Horizontal\
+    int linhaNavio1 = 2;\
+    int colunaInicialNavio1 = 4;\
+\
+    // Navio 2 - Vertical\
+    int linhaInicialNavio2 = 5;\
+    int colunaNavio2 = 7;\
+\
+    // Verifica\'e7\'f5es para garantir que os navios cabem dentro do tabuleiro (simplificadas)\
+    if ((colunaInicialNavio1 + 3 <= TAMANHO) && (linhaInicialNavio2 + 3 <= TAMANHO)) \{\
+        // Posicionar os navios no tabuleiro\
+        posicionarNavioHorizontal(tabuleiro, linhaNavio1, colunaInicialNavio1, 3);\
+        posicionarNavioVertical(tabuleiro, linhaInicialNavio2, colunaNavio2, 3);\
+    \} else \{\
+        printf("Erro: Coordenadas inv\'e1lidas para posicionar os navios.\\n");\
+        return 1; // Encerra o programa\
+    \}\
+\
+    // Exibir o tabuleiro com os navios posicionados\
+    exibirTabuleiro(tabuleiro);\
+\
+    return 0;\
+\}\
+}
